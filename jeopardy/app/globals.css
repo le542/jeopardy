@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.jeopardy-button {
+  min-width: 200px;
+  min-height: 70px;
+  font-size: 30px;
+}
+
+._i5--j {
+  background-color: black;
+  font-size: 28px;
+  max-width: 200px;
+  max-height: 100px;
+}
+
+.react-pdf__Page {
+  --scale-factor: 0;
+}
+
+.upload-file-btn {
+  width: auto;
+  display: inline-block;
+  border: 0;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 3px;
+  font-family: inherit;
+  margin-bottom: 10px;
+  background-color: cadetblue;
+}
+
+.upload-file-btn:hover {
+  background-color: #417c7e
+}
+
+.scoreboard {
+  font-size: 30px;
+  margin-top: -25px;
+  margin-bottom: -5px;
+}
+
+.left-team-score {
+  color:#25a07b
+}
+
+.right-team-score {
+  color:#a22bd6
+}
+
+.form-control {
+  border-width: thick;
+  background: cadetblue;
+  border-color: cadetblue;
+  border-radius: 5px;
+}
+
+#pageOffsetDiv {
+  display: inline-block;
+}
+
+#offset-num{
+  text-align: center;
+  width: 50px;
+}
+
+a {
+  color: #a2b4af
+}
+a:hover{
+  color: #ffffff
+}
+
+#settingHeader {
+  color:white;
+  font-size:19px;
+}
+
+.main-buttons{
+  margin-bottom: 30px;
+}
