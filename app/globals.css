@@ -96,3 +96,15 @@ a:hover{
 .main-buttons{
   margin-bottom: 30px;
 }
+
+span#final-jeopardy-left-score {
+  font-weight: bold;
+  color: #25a07b;
+  margin-right: 90px;
+}
+
+span#final-jeopardy-right-score {
+  font-weight: bold;
+  color:#a22bd6;
+  margin-left: 90px;
+}

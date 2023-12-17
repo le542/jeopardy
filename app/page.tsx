@@ -153,6 +153,7 @@ export default function Home() {
     setSelRow(i)
     setSelCol(j)
     setPageNumber(offset+j*10+i*2+1)
+    setDocButtonLabel("Show Answer")
     setOpen(true)
     buttonTable[i][j] = ""
   }
@@ -289,9 +290,17 @@ export default function Home() {
                 renderTextLayer={false} />
             </Document>
             <div>
-              <Button onClick={() => setPageNumber(offset+51)} variant="outlined">TOPIC</Button>
-              <Button onClick={() => setPageNumber(offset+52)} variant="outlined">QUESTION</Button>
-              <Button onClick={() => setPageNumber(offset+53)} variant="outlined">ANSWER</Button>
+              <span id="final-jeopardy-left-score">{leftScore}</span>
+              <Button onClick={() => setPageNumber(offset+51)} variant="outlined">
+                TOPIC
+              </Button>
+              <Button onClick={() => setPageNumber(offset+52)} variant="outlined">
+                QUESTION
+              </Button>
+              <Button onClick={() => setPageNumber(offset+53)} variant="outlined">
+                ANSWER
+              </Button>
+              <span id="final-jeopardy-right-score">{rightScore}</span>
             </div>
           </Box>
         </Modal>
