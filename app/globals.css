@@ -26,7 +26,7 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.jeopardy-button {
+button.jeopardy-button {
   min-width: 200px;
   min-height: 70px;
   font-size: 30px;
