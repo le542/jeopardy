@@ -221,8 +221,12 @@ export default function Home() {
   }
 
   const finalJeopardy = () => {
-    setPageNumber(offset+51)
-    setOpenFinal(true)
+    if (viewPdf) {
+      setPageNumber(offset+51)
+      setOpenFinal(true)
+    } else {
+      setUploadPopup(true)
+    }
   }
   
   return (
@@ -250,6 +254,7 @@ export default function Home() {
       </div>
       <div id="jeopardy-card-modal">
         <Modal
+          keepMounted={true}
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
@@ -347,7 +352,7 @@ export default function Home() {
         {[...Array(5)].map((_, i) =>
           <tr key={'row' + i}> {[...Array(5)].map((_, j) =>
             <td key={'cell' + i + j}>
-            <Button onClick={() => {selectNumber({i:i,j:j})}} 
+            <Button onClick={() => {viewPdf ? selectNumber({i:i,j:j}) : setUploadPopup(true)}} 
               variant="outlined" className="jeopardy-button" 
               color={getTeamColor(winnerTable[i][j])}>
                 {buttonTable[i][j]}
