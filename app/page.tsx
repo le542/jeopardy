@@ -168,7 +168,7 @@ export default function Home() {
   }
 
   const toggleDocButton = () => {
-    if (pageNumber % 2 == 0) {
+    if ((pageNumber - offset) % 2 == 0) {
       setPageNumber(pageNumber - 1)
       setDocButtonLabel("Show Answer")
     } else {
