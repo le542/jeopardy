@@ -78,6 +78,10 @@ export default function Home() {
   const [winnerTable, setWinnerTable] = React.useState(JSON.parse(JSON.stringify(defaultWinnerTable)));
   const [leftScore, setLeftScore] = React.useState<number>(0);
   const [rightScore, setRightScore] = React.useState<number>(0);
+  const [leftScoreOffset, setLeftScoreOffset] = React.useState<number>(0);
+  const [rightScoreOffset, setRightScoreOffset] = React.useState<number>(0);
+  const [leftScoreOffsetDisplay, setLeftScoreOffsetDisplay] = React.useState<number|string>(0);
+  const [rightScoreOffsetDisplay, setRightScoreOffsetDisplay] = React.useState<number|string>(0);
 
   const [docButtonLabel, setDocButtonLabel] = React.useState("Show answer");
 
@@ -88,7 +92,10 @@ export default function Home() {
   const [uploadPopup, setUploadPopup] = React.useState(false)
 	const [pageNumber, setPageNumber] = React.useState(1)
 
-  const [offset, setOffset] = React.useState(3)
+  const [pdfOffset, setPdfOffset] = React.useState<number>(3)
+  const [pdfOffsetDisplay, setPdfOffsetDisplay] = React.useState<string|number>(3)
+  const [scorePopup, setScorePopup] = React.useState(false);
+
 
   React.useEffect(() => {
     const unloadCallback = (event:any) => {
@@ -136,8 +143,40 @@ export default function Home() {
     calculateScores(tableCopy)
   };
 
-  const handleOffsetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOffset(Number(event.target.value))
+  const handlePdfOffsetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const val = isNaN(Number(event.target.value)) ? 0 : Number(event.target.value)
+    setPdfOffset(val)
+    setPdfOffsetDisplay(val)
+  }
+
+  const handlePdfOffsetDisplayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === "-" || !isNaN(Number(event.target.value))){
+      setPdfOffsetDisplay(event.target.value)
+    }
+  }
+
+  const handleLeftOffsetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const val = isNaN(Number(event.target.value)) ? 0 : Number(event.target.value)
+    setLeftScoreOffset(val)
+    setLeftScoreOffsetDisplay(val)
+  }
+
+  const handleLeftOffsetDisplayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === "-" || !isNaN(Number(event.target.value))){
+      setLeftScoreOffsetDisplay(event.target.value)
+    }
+  }
+
+  const handleRightOffsetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const val = isNaN(Number(event.target.value)) ? 0 : Number(event.target.value)
+    setRightScoreOffset(val)
+    setRightScoreOffsetDisplay(val)
+  }
+
+  const handleRightOffsetDisplayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === "-" || !isNaN(Number(event.target.value))){
+      setRightScoreOffsetDisplay(event.target.value)
+    }
   }
 
   const radioControlProps = (item: string) => ({
@@ -149,10 +188,9 @@ export default function Home() {
   });
 
   const selectNumber = ({i,j}:{i:number,j:number}) => {
-    console.log(offset+j*10+i*2+1)
     setSelRow(i)
     setSelCol(j)
-    setPageNumber(offset+j*10+i*2+1)
+    setPageNumber(pdfOffset+j*10+i*2+1)
     setDocButtonLabel("Show Answer")
     setOpen(true)
     buttonTable[i][j] = ""
@@ -163,12 +201,16 @@ export default function Home() {
     setButtonTable(JSON.parse(JSON.stringify(defaultButtonTable)));
     setWinnerTable(JSON.parse(JSON.stringify(defaultWinnerTable)));
     setLeftScore(0)
+    setLeftScoreOffset(0)
+    setLeftScoreOffsetDisplay(0)
     setRightScore(0)
+    setRightScoreOffset(0)
+    setRightScoreOffsetDisplay(0)
     setOpenWarnReset(false)
   }
 
   const toggleDocButton = () => {
-    if ((pageNumber - offset) % 2 == 0) {
+    if ((pageNumber - pdfOffset) % 2 == 0) {
       setPageNumber(pageNumber - 1)
       setDocButtonLabel("Show Answer")
     } else {
@@ -222,7 +264,7 @@ export default function Home() {
 
   const finalJeopardy = () => {
     if (viewPdf) {
-      setPageNumber(offset+51)
+      setPageNumber(pdfOffset+51)
       setOpenFinal(true)
     } else {
       setUploadPopup(true)
@@ -295,17 +337,17 @@ export default function Home() {
                 renderTextLayer={false} />
             </Document>
             <div>
-              <span id="final-jeopardy-left-score">{leftScore}</span>
-              <Button onClick={() => setPageNumber(offset+51)} variant="outlined">
+              <span id="final-jeopardy-left-score">{leftScore + leftScoreOffset}</span>
+              <Button onClick={() => setPageNumber(pdfOffset+51)} variant="outlined">
                 TOPIC
               </Button>
-              <Button onClick={() => setPageNumber(offset+52)} variant="outlined">
+              <Button onClick={() => setPageNumber(pdfOffset+52)} variant="outlined">
                 QUESTION
               </Button>
-              <Button onClick={() => setPageNumber(offset+53)} variant="outlined">
+              <Button onClick={() => setPageNumber(pdfOffset+53)} variant="outlined">
                 ANSWER
               </Button>
-              <span id="final-jeopardy-right-score">{rightScore}</span>
+              <span id="final-jeopardy-right-score">{rightScore + rightScoreOffset}</span>
             </div>
           </Box>
         </Modal>
@@ -322,7 +364,8 @@ export default function Home() {
               <h2 id="settingHeader"> {viewPdf ? 'File Currently Loaded' : 'No File Loaded'} </h2><br/> 
               <div id="pageOffsetDiv" className='form-control' style={{width: '60%'}} >
                 Page Offset:&nbsp;&nbsp;
-                <input type="number" value={offset} onChange={handleOffsetChange} id="offset-num" name="offsetNum" />
+                <input value={pdfOffsetDisplay} onChange={handlePdfOffsetDisplayChange} 
+                  onBlur={handlePdfOffsetChange} id="offset-num" name="offsetNum" />
               </div><br/><br/>
               <input type="file" className='form-control' required onChange={handlePdfFileChange}/>
               {pdfFileError && <div className='error-msg' > {pdfFileError} </div>}
@@ -337,9 +380,30 @@ export default function Home() {
           </Box>
         </Modal>
       </div>
-      <div className="scoreboard">
-          <h1><span className="left-team-score">{leftScore}</span>&nbsp;|&nbsp;
-          <span className="right-team-score">{rightScore}</span></h1>
+      <div id="score-override-modal">
+        <Modal
+          open={scorePopup}
+          onClose={() => setScorePopup(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+              <p>Base:</p><br/>
+              <h1><div className="scoreboard"><span className="left-team-score">{leftScore}</span>&nbsp;|&nbsp;
+              <span className="right-team-score">{rightScore}</span></div></h1>
+              <br/><p>Offset:</p>
+              <p id="offset-display"><input id='left-score-override' value={leftScoreOffsetDisplay} 
+                  onChange={handleLeftOffsetDisplayChange} onBlur={handleLeftOffsetChange}/>
+                  &nbsp;|&nbsp;
+              <input id='right-score-override' value={rightScoreOffsetDisplay} 
+                  onChange={handleRightOffsetDisplayChange} onBlur={handleRightOffsetChange}/>
+              </p>
+          </Box>
+        </Modal>
+      </div>
+      <div id="main-scoreboard" className="scoreboard">
+          <h1 onClick={() => setScorePopup(true)}>&nbsp;&nbsp;<span className="left-team-score">{leftScore + leftScoreOffset}</span>&nbsp;|&nbsp;
+          <span className="right-team-score">{rightScore + rightScoreOffset}</span>&nbsp;&nbsp;</h1>
       </div>
       <table><tbody>
         <tr>

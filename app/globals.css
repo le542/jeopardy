@@ -18,6 +18,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+p {
+  color:white;
+}
+
 button.jeopardy-button {
   min-width: 200px;
   min-height: 70px;
@@ -52,6 +56,7 @@ button.jeopardy-button {
 }
 
 .scoreboard {
+  color: white;
   font-size: 30px;
   margin-top: -25px;
   margin-bottom: -5px;
@@ -107,4 +112,29 @@ span#final-jeopardy-right-score {
   font-weight: bold;
   color:#a22bd6;
   margin-left: 90px;
+}
+
+#main-scoreboard:hover{
+  cursor:pointer;
+  background-color: #272727;
+}
+
+input#left-score-override {
+  width: 140px;
+  height: 50px;
+  font-size: 30px;
+  text-align: center;
+  background-color: #16604a;
+}
+
+input#right-score-override {
+  width: 140px;
+  height: 50px;
+  font-size: 30px;
+  text-align: center;
+  background-color: #51166a;
+}
+
+p#offset-display {
+  font-size: 30px;
 }
